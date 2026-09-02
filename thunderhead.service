@@ -1,0 +1,16 @@
+[Unit]
+Description=Thunderhead Flue agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=exedev
+WorkingDirectory=/home/exedev/thunderhead
+EnvironmentFile=/home/exedev/thunderhead/.env
+ExecStart=/home/exedev/.local/bin/node /home/exedev/thunderhead/dist/server.mjs
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

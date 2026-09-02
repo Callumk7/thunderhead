@@ -8,7 +8,7 @@ A [Flue](https://flueframework.com) agent project.
 npm install
 ```
 
-Then add `OPENROUTER_API_KEY`, `EXA_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID` to `.env`.
+Then copy `.env.example` to `.env` and set `OPENROUTER_API_KEY`, `EXA_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID`. Keep `.env` private; it is gitignored.
 
 ## Run the orchestrator
 
@@ -19,7 +19,7 @@ npx flue run src/agents/orchestrator.ts --message "Delegate a research task and 
 Conversations are durable — pass `--id <id>` to continue one. When the server is running, trigger a workflow over HTTP:
 
 ```sh
-curl -X POST http://localhost:5173/agents/orchestrator/my-workflow \
+curl -X POST http://localhost:8000/agents/orchestrator/my-workflow \
   -H 'content-type: application/json' \
   -d '{"kind":"user","body":"Delegate a research task and summarize the result."}'
 ```
@@ -30,7 +30,7 @@ curl -X POST http://localhost:5173/agents/orchestrator/my-workflow \
 npm run dev
 ```
 
-The orchestrator is served at `http://localhost:5173/agents/orchestrator/:id`. Discord interactions are accepted at `http://localhost:5173/channels/discord/interactions`.
+The orchestrator is served at `http://localhost:8000/agents/orchestrator/:id`. Discord interactions are accepted at `http://localhost:8000/channels/discord/interactions`.
 
 Research requests are split across parallel researcher subagents using Exa, independently audited by a fact-checker, and returned with source URLs and uncertainty labels.
 
@@ -48,8 +48,10 @@ The bot needs permission to send messages in the configured channels.
 
 ```sh
 npm run build
-node dist/server.mjs
+sudo systemctl restart thunderhead
 ```
+
+The included `thunderhead.service` loads secrets from `/home/exedev/thunderhead/.env` and serves on port 8000.
 
 ## Learn more
 
