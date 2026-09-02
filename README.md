@@ -8,7 +8,7 @@ A [Flue](https://flueframework.com) agent project.
 npm install
 ```
 
-Then add `OPENROUTER_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID` to `.env`.
+Then add `OPENROUTER_API_KEY`, `EXA_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID` to `.env`.
 
 ## Run the orchestrator
 
@@ -31,6 +31,8 @@ npm run dev
 ```
 
 The orchestrator is served at `http://localhost:5173/agents/orchestrator/:id`. Discord interactions are accepted at `http://localhost:5173/channels/discord/interactions`.
+
+Research requests are split across parallel researcher subagents using Exa, independently audited by a fact-checker, and returned with source URLs and uncertainty labels.
 
 ## Discord setup
 

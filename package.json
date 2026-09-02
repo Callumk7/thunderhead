@@ -12,6 +12,7 @@
 		"@discordjs/rest": "^2.6.3",
 		"@flue/discord": "^2.0.3",
 		"@flue/runtime": "^2.0.3",
+		"exa-js": "^2.19.0",
 		"hono": "4.12.32",
 		"valibot": "^1.4.2"
 	},

@@ -9,6 +9,7 @@ import {
 import { defineTool, dispatch } from '@flue/runtime';
 import * as v from 'valibot';
 import { Orchestrator } from '../agents/orchestrator.ts';
+import { splitDiscordMessage } from '../shared/split-discord-message.ts';
 
 export const client = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN!);
 
@@ -66,12 +67,17 @@ export function postMessage(ref: { channelId: string }) {
 	return defineTool({
 		name: 'post_discord_message',
 		description: 'Post a progress update or final report to the Discord destination bound to this orchestration.',
-		input: v.object({ content: v.pipe(v.string(), v.minLength(1)) }),
+		input: v.object({ content: v.pipe(v.string(), v.minLength(1), v.maxLength(20_000)) }),
 		async run({ data }) {
-			const result = (await client.post(`/channels/${ref.channelId}/messages`, {
-				body: { content: data.content },
-			})) as { id?: string };
-			return { output: { ...(result.id === undefined ? {} : { messageId: result.id }) } };
+			const chunks = splitDiscordMessage(data.content);
+			const messageIds: string[] = [];
+			for (const content of chunks) {
+				const result = (await client.post(`/channels/${ref.channelId}/messages`, {
+					body: { content },
+				})) as { id?: string };
+				if (result.id) messageIds.push(result.id);
+			}
+			return { output: { messagesPosted: chunks.length, messageIds } };
 		},
 	});
 }
