@@ -32,7 +32,7 @@ npm run dev
 
 The orchestrator is served at `http://localhost:8000/agents/orchestrator/:id`. Discord interactions are accepted at `http://localhost:8000/channels/discord/interactions`.
 
-Research requests are split across parallel researcher subagents using Exa, independently audited by a fact-checker, and returned with source URLs and uncertainty labels.
+Research requests are split across parallel researcher subagents using Exa, independently audited by a fact-checker, and returned with source URLs and uncertainty labels. Discord displays one live job-status message as work moves through researching, verifying, writing, and completion; terminal failures update the same message.
 
 ## Discord setup
 

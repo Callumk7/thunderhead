@@ -1,4 +1,8 @@
 import { observe, type FlueObservation } from "@flue/runtime";
+import {
+  forgetDiscordJob,
+  markDiscordJobStopped,
+} from "./shared/discord-job-status.ts";
 
 type LogLevel = "info" | "warn" | "error";
 
@@ -127,6 +131,24 @@ observe((event) => {
           ...(event.error?.message ? { error: event.error.message } : {}),
         },
       );
+      if (event.outcome === "completed") {
+        forgetDiscordJob(event.submissionId);
+      } else {
+        void markDiscordJobStopped(event.submissionId, event.outcome).catch(
+          (error: unknown) => {
+            console.error(
+              JSON.stringify({
+                timestamp: new Date().toISOString(),
+                level: "error",
+                service: "thunderhead",
+                event: "discord_status_update_failed",
+                submissionId: event.submissionId,
+                error: error instanceof Error ? error.message : String(error),
+              }),
+            );
+          },
+        );
+      }
       break;
   }
 });
