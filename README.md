@@ -8,7 +8,7 @@ A [Flue](https://flueframework.com) agent project.
 npm install
 ```
 
-Then add `OPENAI_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID` to `.env`.
+Then add `OPENROUTER_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID` to `.env`.
 
 ## Run the orchestrator
 
