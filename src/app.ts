@@ -1,3 +1,4 @@
+import './observability.ts';
 import { createAgentRouter } from '@flue/runtime/routing';
 import { Hono } from 'hono';
 import { Orchestrator } from './agents/orchestrator.ts';

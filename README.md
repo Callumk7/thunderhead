@@ -52,6 +52,13 @@ sudo systemctl restart thunderhead
 ```
 
 The included `thunderhead.service` loads secrets from `/home/exedev/thunderhead/.env` and serves on port 8000.
+The server writes content-safe, one-line JSON lifecycle logs to stdout/stderr. With systemd, follow them using:
+
+```sh
+journalctl -u <service-name> -f -o cat
+```
+
+Logs include submissions, model turns, Exa searches, subagent tasks, tools, failures, token usage, and estimated model cost. Prompts, tool arguments, research results, and secrets are intentionally omitted.
 
 ## Learn more
 
