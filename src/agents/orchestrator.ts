@@ -12,12 +12,10 @@ import { postMessage, updateStatus } from "../channels/discord.ts";
 import { factChecker } from "../subagents/fact-checker.ts";
 import { researcher } from "../subagents/researcher.ts";
 
-const initialDataSchema = v.optional(
-  v.object({
-    channelId: v.string(),
-    channelName: v.optional(v.string()),
-  }),
-);
+const initialDataSchema = v.object({
+  channelId: v.string(),
+  channelName: v.optional(v.string()),
+});
 
 export function Orchestrator() {
   useModel("openrouter/~google/gemini-flash-latest");
@@ -31,36 +29,31 @@ export function Orchestrator() {
     delivery.type === "discord.command.orchestrate"
       ? delivery.attributes?.statusMessageId
       : undefined;
-  const reportChannelId =
-    data?.channelId ?? process.env.DISCORD_REPORT_CHANNEL_ID;
+  const reportChannelId = data.channelId;
 
-  if (reportChannelId) {
-    useTool(postMessage({ channelId: reportChannelId, statusMessageId }));
-    if (statusMessageId) {
-      useTool(
-        updateStatus({ channelId: reportChannelId, statusMessageId }),
-      );
-    }
-    useAgentFinish(({ response, append }) => {
-      const reportCalls = response.toolCalls.filter(
-        ({ tool }) => tool === "post_discord_message",
-      );
-      if (reportCalls.some(({ isError }) => !isError)) return;
-      if (reportCalls.length >= 2) return;
-      append({
-        kind: "signal",
-        type: "discord.report.required",
-        body:
-          reportCalls.length === 0
-            ? "You have not published the final Discord report. Complete the workflow and call post_discord_message exactly once before finishing."
-            : "Publishing the Discord report failed. Retry post_discord_message once with the complete final report.",
-      });
-    });
+  useTool(postMessage({ channelId: reportChannelId, statusMessageId }));
+  if (statusMessageId) {
+    useTool(updateStatus({ channelId: reportChannelId, statusMessageId }));
   }
+  useAgentFinish(({ response, append }) => {
+    const reportCalls = response.toolCalls.filter(
+      ({ tool }) => tool === "post_discord_message",
+    );
+    if (reportCalls.some(({ isError }) => !isError)) return;
+    if (reportCalls.length >= 2) return;
+    append({
+      kind: "signal",
+      type: "discord.report.required",
+      body:
+        reportCalls.length === 0
+          ? "You have not published the final Discord report. Complete the workflow and call post_discord_message exactly once before finishing."
+          : "Publishing the Discord report failed. Retry post_discord_message once with the complete final report.",
+    });
+  });
 
-  const destination = data?.channelName
+  const destination = data.channelName
     ? `#${data.channelName}`
-    : "the configured report channel";
+    : "the Discord channel bound to this conversation";
   return `You are Thunderhead, an evidence-first research orchestration agent.
 
 For requests requiring web research, follow this workflow:

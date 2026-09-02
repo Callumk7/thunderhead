@@ -10,7 +10,6 @@ This is a [Flue](https://flueframework.com) project: agents are TypeScript funct
 
 ## Commands
 
-- `npx flue run src/agents/orchestrator.ts --message "Delegate this task: ..."` — run the orchestrator locally, no server.
 - `npm run dev` — start the dev server.
 - `npm run build` — build `dist/server.mjs` (start it with `npm run start`).
 - `npm run check:types` — typecheck.

@@ -8,21 +8,9 @@ A [Flue](https://flueframework.com) agent project.
 npm install
 ```
 
-Then copy `.env.example` to `.env` and set `OPENROUTER_API_KEY`, `EXA_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID`. Keep `.env` private; it is gitignored.
+Then copy `.env.example` to `.env` and set `OPENROUTER_API_KEY`, `EXA_API_KEY`, `DISCORD_PUBLIC_KEY`, `DISCORD_BOT_TOKEN`, and `DISCORD_REPORT_CHANNEL_ID`. Keep `.env` private; it is gitignored. `DISCORD_REPORT_CHANNEL_ID` is reserved as the default destination for future workflows triggered outside Discord.
 
-## Run the orchestrator
-
-```sh
-npx flue run src/agents/orchestrator.ts --message "Delegate a research task and summarize the result."
-```
-
-Conversations are durable — pass `--id <id>` to continue one. When the server is running, trigger a workflow over HTTP:
-
-```sh
-curl -X POST http://localhost:8000/agents/orchestrator/my-workflow \
-  -H 'content-type: application/json' \
-  -d '{"kind":"user","body":"Delegate a research task and summarize the result."}'
-```
+The orchestrator is dispatch-only and accepts work exclusively from verified Discord interactions.
 
 ## Develop
 
@@ -30,7 +18,7 @@ curl -X POST http://localhost:8000/agents/orchestrator/my-workflow \
 npm run dev
 ```
 
-The orchestrator is served at `http://localhost:8000/agents/orchestrator/:id`. Discord interactions are accepted at `http://localhost:8000/channels/discord/interactions`.
+Discord interactions are accepted at `http://localhost:8000/channels/discord/interactions`. There is no directly accessible agent route.
 
 Research requests are split across parallel researcher subagents using Exa, independently audited by a fact-checker, and returned with source URLs and uncertainty labels. Discord displays one live job-status message as work moves through researching, verifying, writing, and completion; terminal failures update the same message.
 
