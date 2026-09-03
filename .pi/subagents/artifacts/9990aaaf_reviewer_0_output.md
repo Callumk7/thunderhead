@@ -1,0 +1,22 @@
+## Review
+
+- **Correct:** Trigger tests cover create-with-label, create-without-label, newly added labels, unrelated updates, missing prior-label state, and case-insensitive matching (`src/shared/linear-trigger.test.ts:25-85`).
+- **Correct:** Publication tests cover backup creation, first/second conflict behavior, and repository-unavailable handling (`src/tools/linear-issue.test.ts:48-126`).
+- **Correct:** Repository identity is configuration-bound, and the pure path/query restrictions have useful baseline tests (`src/shared/repository-config.test.ts`, `src/tools/repository-read.test.ts`).
+
+- **Blocker:** Repository requirements are advisory rather than enforced. `publish_strengthened_issue` is always mounted before checking whether a repository exists (`src/agents/issue-strengthener.ts:44-53`), and the publish tool neither proves a successful repository read nor knows whether GitHub failed (`src/tools/linear-issue.ts:49-67`). Thus an unmapped team, or a model that ignores a GitHub failure, can still replace the issue—contrary to PLAN.md. Conditionally omit publishing for unmapped teams and gate publishing on successful repository inspection with no intervening read failure. Add agent/tool integration tests for both cases.
+
+- **Blocker:** Conflict detection has a substantial time-of-check/time-of-use window. The snapshot is checked at `src/tools/linear-issue.ts:67-90`, but team-label retrieval and backup-comment lookup/creation occur before the update at `src/tools/linear-issue.ts:121-138`. A human edit during those calls can be overwritten without triggering regeneration. Revalidate immediately before mutation and use a conditional/CAS mutation if Linear supports one; otherwise document and test the unavoidable residual race.
+
+- **High:** The required nine-section output is not validated. The description schema accepts any nonempty string (`src/tools/linear-issue.ts:53-60`), and the successful publish test deliberately uses only `## Summary` (`src/tools/linear-issue.test.ts:32-39`). Validate section presence/order and acceptance-criteria checkboxes at the write boundary, then test malformed, missing, duplicated, and reordered sections.
+
+- **High:** The finish-hook continuation loses trusted context. The agent requires `teamId` and `deliveryId` from the current delivery (`src/agents/issue-strengthener.ts:28-33`), but the signal appended by `useAgentFinish` has no attributes (`src/agents/issue-strengthener.ts:69-75`). Flue advances `useDelivery()` to appended signals, so the continuation render will throw rather than prompting another terminal action. Preserve those attributes on the appended signal or store the delivery context durably. Add a harness-level test exercising a model turn that initially omits the terminal tool.
+
+- **Medium:** Three failed terminal-tool attempts are treated as successful completion (`src/agents/issue-strengthener.ts:64-67`). This permits silent settlement with neither publication nor failure comment. Represent terminal outcome explicitly instead of inferring it from aggregate call counts, and fail loudly after bounded retries.
+
+- **Medium:** Webhook narrowing only checks property presence (`src/shared/linear-trigger.ts:4-12`). It does not verify that `labels` is an array of `{id,name}` values or that issue identity fields are strings, so malformed signed payloads can throw at `.find()` or dispatch invalid data. This falls short of PLAN.md’s “strict issue payload narrowing.” Add malformed-payload tests and runtime validation.
+
+- **Medium:** Repository tests exercise only pure helpers. They do not verify that API calls remain bound to the configured owner/repository/default branch, enforce result/file-size limits, or reject binary data (`src/tools/repository-read.test.ts:1-42`). Additionally, decoding before validation only rejects NUL-containing binaries (`src/tools/repository-read.ts:107-109`); invalid UTF-8 without NUL can reach the model. Mock Octokit and test each actual tool boundary.
+
+- **Note:** There is no channel-level test for duplicate delivery idempotency, stable per-issue conversation identity, removal/re-addition, or prompt-response latency. These are explicit PLAN.md verification items.
+- **Note:** Files changed concurrently during review; findings reflect the latest readable snapshot. The supervisor should rerun `npm test`, `npm run check:types`, and `npm run build` after edits settle.

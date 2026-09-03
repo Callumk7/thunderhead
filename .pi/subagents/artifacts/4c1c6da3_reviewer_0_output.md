@@ -1,0 +1,4 @@
+## Review
+- Blocker: None. Static inspection found no remaining blocker or high-severity defect.
+- Note: Verified trusted continuation attributes and delivery-scoped state (`src/agents/issue-strengthener.ts:31-68,117`), repository-gated publishing (`src/agents/issue-strengthener.ts:81-83`; `src/tools/linear-issue.ts:93-98`), strict webhook filtering and label-transition detection (`src/shared/linear-trigger.ts:4-36`), structured validation (`src/shared/issue-standard.ts:17-33`; `src/tools/linear-issue.ts:98`), pagination (`src/shared/linear-client.ts:59,66`), trigger-removal cancellation (`src/tools/linear-issue.ts:165-174`), and repeated pre-write conflict checks (`src/tools/linear-issue.ts:182-203`).
+- Note: Residual risk is the unavoidable narrow race between the final fetch and Linear mutation; it is documented and appropriately minimized. Runtime commands were not available for this review.

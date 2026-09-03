@@ -1,0 +1,171 @@
+{
+  "runId": "9990aaaf",
+  "agent": "reviewer",
+  "task": "[prompt redacted]",
+  "exitCode": 0,
+  "processSignal": "SIGTERM",
+  "usage": {
+    "input": 50082,
+    "output": 8904,
+    "cacheRead": 320384,
+    "cacheWrite": 0,
+    "cost": 0.677722,
+    "turns": 14
+  },
+  "model": "openai-codex/gpt-5.6-sol:high",
+  "attemptedModels": [
+    "openai-codex/gpt-5.6-sol:high"
+  ],
+  "modelAttempts": [
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": false,
+      "exitCode": 1,
+      "error": "[startup-retry] openai-codex/gpt-5.6-sol:high exited before model or tool activity (attempt 1/4). Retrying the same model in 250ms.",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "cost": 0,
+        "turns": 0
+      }
+    },
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 50082,
+        "output": 8904,
+        "cacheRead": 320384,
+        "cacheWrite": 0,
+        "cost": 0.677722,
+        "turns": 14
+      }
+    }
+  ],
+  "durationMs": 207156,
+  "toolCount": 61,
+  "launchContractDigest": "7bd6429bc45f87a34b78fb25ecfeee706df3f522fe6e309e00d02fc2e3d3b5b0",
+  "launchResolvedExtensions": {
+    "version": 1,
+    "source": "launch-resolved",
+    "disableAmbientExtensions": false,
+    "runtime": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "configured": [],
+    "effective": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "omitted": {
+      "runtime": 0,
+      "configured": 0,
+      "effective": 0
+    }
+  },
+  "acceptance": {
+    "status": "attested",
+    "evidenceStatus": "attested",
+    "explicit": false,
+    "effectiveAcceptance": {
+      "level": "attested",
+      "explicit": false,
+      "inferredReason": [
+        "read-only/reviewer-style agent"
+      ],
+      "criteria": [
+        {
+          "id": "criterion-1",
+          "must": "Return concrete findings with file paths and severity when applicable",
+          "evidence": [
+            "review-findings",
+            "residual-risks"
+          ],
+          "severity": "required"
+        }
+      ],
+      "evidence": [
+        "review-findings",
+        "residual-risks"
+      ],
+      "verify": [],
+      "stopRules": []
+    },
+    "inferredReason": [
+      "read-only/reviewer-style agent"
+    ],
+    "criteria": [
+      {
+        "id": "criterion-1",
+        "must": "Return concrete findings with file paths and severity when applicable",
+        "evidence": [
+          "review-findings",
+          "residual-risks"
+        ],
+        "severity": "required"
+      }
+    ],
+    "runtimeChecks": [],
+    "verifyRuns": [],
+    "childReport": {
+      "criteriaSatisfied": [
+        {
+          "id": "criterion-1",
+          "status": "satisfied",
+          "evidence": "Concrete blocker/high/medium findings cite src/agents/issue-strengthener.ts, src/tools/linear-issue.ts, src/shared/linear-trigger.ts, and associated tests."
+        }
+      ],
+      "changedFiles": [],
+      "testsAddedOrUpdated": [],
+      "commandsRun": [
+        {
+          "command": "npm test",
+          "result": "not-run",
+          "summary": "No shell execution tool was available; supervisor should run after concurrent edits settle."
+        },
+        {
+          "command": "npm run check:types",
+          "result": "not-run",
+          "summary": "No shell execution tool was available."
+        },
+        {
+          "command": "npm run build",
+          "result": "not-run",
+          "summary": "No shell execution tool was available."
+        }
+      ],
+      "validationOutput": [
+        "Inspected PLAN.md, Linear channel/agent/client/tools, repository constraints, documentation, and all newly introduced test suites.",
+        "Verified from Flue hook documentation that useDelivery advances to signals appended by useAgentFinish."
+      ],
+      "residualRisks": [
+        "Runtime validation remains unattested because tests, typecheck, and build could not be executed.",
+        "The working tree changed concurrently during review, so final code may differ from the reviewed snapshot.",
+        "Git staging and exact diff state could not be inspected without Git command access."
+      ],
+      "noStagedFiles": true,
+      "diffSummary": "Review-only inspection of the uncommitted Linear issue-strengthening implementation; no files were modified or staged by this reviewer.",
+      "reviewFindings": [
+        "blocker: src/agents/issue-strengthener.ts:44-53 - publishing remains available without a mapped/readable repository or verified repository inspection",
+        "blocker: src/tools/linear-issue.ts:67-138 - human edits can occur after snapshot validation and be overwritten",
+        "high: src/tools/linear-issue.ts:53-60 - required structured issue format is not validated",
+        "high: src/agents/issue-strengthener.ts:28-33,69-75 - finish continuation drops trusted delivery attributes and can fail on rerender",
+        "medium: src/agents/issue-strengthener.ts:64-67 - three failed terminal attempts can settle silently",
+        "medium: src/shared/linear-trigger.ts:4-12 - webhook narrowing is not strict runtime validation",
+        "medium: src/tools/repository-read.test.ts - actual GitHub tool authorization, limit, and binary behavior lacks coverage"
+      ],
+      "manualNotes": "Files changed concurrently during review; rerun validation and targeted review after the working tree stabilizes."
+    }
+  },
+  "effects": {
+    "fileMutation": {
+      "status": "not-applicable",
+      "expected": false,
+      "attempted": false
+    }
+  },
+  "transcriptPath": "/Users/callumkloos/Projects/agents/thunderhead/.pi/subagents/artifacts/9990aaaf_reviewer_0_transcript.jsonl",
+  "timestamp": 1788379633122
+}

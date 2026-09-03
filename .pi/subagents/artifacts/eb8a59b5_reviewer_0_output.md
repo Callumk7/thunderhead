@@ -1,0 +1,7 @@
+## Review
+- **Correct:** Raw Linear title/description are absent from the dispatched signal and initial data (`src/channels/linear.ts:31-49`). Model-facing snapshots pass through `issueOutput()` redaction, including conflict responses (`src/tools/linear-issue.ts:52-72,112-125,248-263`).
+- **Correct:** Conflict checks now use an opaque SHA-256 `snapshotToken`; publishing accepts and compares that token rather than requiring the model to echo original content (`src/shared/linear-client.ts:81-94`; `src/tools/linear-issue.ts:80-84,159-161`). Exact original content is used only server-side for the Linear backup comment (`src/tools/linear-issue.ts:177-185`; `src/shared/linear-client.ts:151-166`).
+- **Correct:** Standard encrypted PEM private keys are explicitly redacted by the `ENCRYPTED PRIVATE KEY` pattern and covered by regression testing (`src/shared/secret-redaction.ts:1-3`; `src/shared/secret-redaction.test.ts:5-16`).
+- **Correct:** Repository read-count, failure, and discovered-path state keys include the normalized current `owner/repo`, and those scoped values gate publication and repository tools (`src/agents/issue-strengthener.ts:42-60,71-96`).
+- **Blocker:** None.
+- **Note:** No new blocker/high defect was found. Secret detection remains heuristic, and the repository-state namespace lacks a dedicated automated regression test.

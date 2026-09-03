@@ -6,12 +6,16 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"start": "node dist/server.mjs",
-		"check:types": "tsc --noEmit"
+		"check:types": "tsc --noEmit",
+		"test": "vitest run --config vitest.config.ts"
 	},
 	"dependencies": {
 		"@discordjs/rest": "^2.6.3",
 		"@flue/discord": "^2.0.3",
+		"@flue/linear": "^2.0.3",
 		"@flue/runtime": "^2.0.3",
+		"@linear/sdk": "^92.0.0",
+		"@octokit/rest": "^22.0.1",
 		"exa-js": "^2.19.0",
 		"hono": "4.12.32",
 		"valibot": "^1.4.2"
@@ -21,6 +25,7 @@
 		"@flue/vite": "^2.0.3",
 		"@types/node": "^22.10.10",
 		"typescript": "^7.0.2",
-		"vite": "^8.0.14"
+		"vite": "^8.0.14",
+		"vitest": "^4.1.11"
 	}
 }

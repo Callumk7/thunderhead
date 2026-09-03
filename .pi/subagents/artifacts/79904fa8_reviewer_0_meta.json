@@ -1,0 +1,150 @@
+{
+  "runId": "79904fa8",
+  "agent": "reviewer",
+  "task": "[prompt redacted]",
+  "exitCode": 0,
+  "processSignal": "SIGTERM",
+  "usage": {
+    "input": 72260,
+    "output": 7619,
+    "cacheRead": 35200,
+    "cacheWrite": 0,
+    "cost": 0.6074700000000001,
+    "turns": 6
+  },
+  "model": "openai-codex/gpt-5.6-sol:high",
+  "attemptedModels": [
+    "openai-codex/gpt-5.6-sol:high"
+  ],
+  "modelAttempts": [
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": false,
+      "exitCode": 1,
+      "error": "[startup-retry] openai-codex/gpt-5.6-sol:high exited before model or tool activity (attempt 1/4). Retrying the same model in 250ms.",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "cost": 0,
+        "turns": 0
+      }
+    },
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 72260,
+        "output": 7619,
+        "cacheRead": 35200,
+        "cacheWrite": 0,
+        "cost": 0.6074700000000001,
+        "turns": 6
+      }
+    }
+  ],
+  "durationMs": 164237,
+  "toolCount": 42,
+  "launchContractDigest": "73af7b52a4ed7090166c2ab7b31ef57aa60a197ba014d191e3b3eceb1aa44090",
+  "launchResolvedExtensions": {
+    "version": 1,
+    "source": "launch-resolved",
+    "disableAmbientExtensions": false,
+    "runtime": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "configured": [],
+    "effective": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "omitted": {
+      "runtime": 0,
+      "configured": 0,
+      "effective": 0
+    }
+  },
+  "acceptance": {
+    "status": "attested",
+    "evidenceStatus": "attested",
+    "explicit": false,
+    "effectiveAcceptance": {
+      "level": "attested",
+      "explicit": false,
+      "inferredReason": [
+        "read-only/reviewer-style agent"
+      ],
+      "criteria": [
+        {
+          "id": "criterion-1",
+          "must": "Return concrete findings with file paths and severity when applicable",
+          "evidence": [
+            "review-findings",
+            "residual-risks"
+          ],
+          "severity": "required"
+        }
+      ],
+      "evidence": [
+        "review-findings",
+        "residual-risks"
+      ],
+      "verify": [],
+      "stopRules": []
+    },
+    "inferredReason": [
+      "read-only/reviewer-style agent"
+    ],
+    "criteria": [
+      {
+        "id": "criterion-1",
+        "must": "Return concrete findings with file paths and severity when applicable",
+        "evidence": [
+          "review-findings",
+          "residual-risks"
+        ],
+        "severity": "required"
+      }
+    ],
+    "runtimeChecks": [],
+    "verifyRuns": [],
+    "childReport": {
+      "criteriaSatisfied": [
+        {
+          "id": "criterion-1",
+          "status": "satisfied",
+          "evidence": "Three high-severity findings include concrete paths, line references, impacts, and smallest fixes."
+        }
+      ],
+      "changedFiles": [],
+      "testsAddedOrUpdated": [],
+      "commandsRun": [],
+      "validationOutput": [
+        "Static inspection covered repository gating, discovery-before-read, repository scoping, secret redaction, label/write bounds, trigger cancellation, and prompt-injection blast radius."
+      ],
+      "residualRisks": [
+        "Linear has an unavoidable narrow race between the final issue fetch and update because its update API lacks an expected-version condition.",
+        "Prompt injection can still influence structured content and additive existing labels on the single bound issue, although it cannot select another repository, issue, or arbitrary API operation.",
+        "Tests and Git status were not executed because this was a review-only task without shell access."
+      ],
+      "noStagedFiles": true,
+      "diffSummary": "Review-only inspection; no files were modified or staged by the reviewer.",
+      "reviewFindings": [
+        "high: src/channels/linear.ts:41 and src/tools/linear-issue.ts:249-256 - raw Linear title and description reach the external model without secret redaction.",
+        "high: src/shared/secret-redaction.ts:2 and src/tools/repository-read.ts:137-144 - encrypted PKCS#8 private keys bypass redaction and can reach the model.",
+        "high: src/agents/issue-strengthener.ts:47-57,72 and src/tools/repository-read.ts:23,108 - durable discovery/read authorization is not bound to repository identity."
+      ],
+      "manualNotes": "The reviewer made no changes. Existing repository staging status was not independently checked."
+    }
+  },
+  "effects": {
+    "fileMutation": {
+      "status": "not-applicable",
+      "expected": false,
+      "attempted": false
+    }
+  },
+  "transcriptPath": "/Users/callumkloos/Projects/agents/thunderhead/.pi/subagents/artifacts/79904fa8_reviewer_0_transcript.jsonl",
+  "timestamp": 1788380503680
+}

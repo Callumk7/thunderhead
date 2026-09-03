@@ -1,0 +1,167 @@
+{
+  "runId": "bad6d09a",
+  "agent": "reviewer",
+  "task": "[prompt redacted]",
+  "exitCode": 0,
+  "processSignal": "SIGTERM",
+  "usage": {
+    "input": 48413,
+    "output": 13224,
+    "cacheRead": 240768,
+    "cacheWrite": 0,
+    "cost": 0.759169,
+    "turns": 13
+  },
+  "model": "openai-codex/gpt-5.6-sol:high",
+  "attemptedModels": [
+    "openai-codex/gpt-5.6-sol:high"
+  ],
+  "modelAttempts": [
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": false,
+      "exitCode": 1,
+      "error": "[startup-retry] openai-codex/gpt-5.6-sol:high exited before model or tool activity (attempt 1/4). Retrying the same model in 250ms.",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "cost": 0,
+        "turns": 0
+      }
+    },
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 48413,
+        "output": 13224,
+        "cacheRead": 240768,
+        "cacheWrite": 0,
+        "cost": 0.759169,
+        "turns": 13
+      }
+    }
+  ],
+  "durationMs": 322313,
+  "toolCount": 59,
+  "launchContractDigest": "7676085d2f59356d5c3a26178bb90eda9cf172d3b9c3c0b17110c151c9c3388c",
+  "launchResolvedExtensions": {
+    "version": 1,
+    "source": "launch-resolved",
+    "disableAmbientExtensions": false,
+    "runtime": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "configured": [],
+    "effective": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "omitted": {
+      "runtime": 0,
+      "configured": 0,
+      "effective": 0
+    }
+  },
+  "acceptance": {
+    "status": "attested",
+    "evidenceStatus": "attested",
+    "explicit": false,
+    "effectiveAcceptance": {
+      "level": "attested",
+      "explicit": false,
+      "inferredReason": [
+        "read-only/reviewer-style agent"
+      ],
+      "criteria": [
+        {
+          "id": "criterion-1",
+          "must": "Return concrete findings with file paths and severity when applicable",
+          "evidence": [
+            "review-findings",
+            "residual-risks"
+          ],
+          "severity": "required"
+        }
+      ],
+      "evidence": [
+        "review-findings",
+        "residual-risks"
+      ],
+      "verify": [],
+      "stopRules": []
+    },
+    "inferredReason": [
+      "read-only/reviewer-style agent"
+    ],
+    "criteria": [
+      {
+        "id": "criterion-1",
+        "must": "Return concrete findings with file paths and severity when applicable",
+        "evidence": [
+          "review-findings",
+          "residual-risks"
+        ],
+        "severity": "required"
+      }
+    ],
+    "runtimeChecks": [],
+    "verifyRuns": [],
+    "childReport": {
+      "criteriaSatisfied": [
+        {
+          "id": "criterion-1",
+          "status": "satisfied",
+          "evidence": "Concrete High, Medium, and Low findings cite src/tools/linear-issue.ts, src/shared/linear-client.ts, src/tools/repository-read.ts, src/agents/issue-strengthener.ts, src/channels/linear.ts, and src/shared/linear-trigger.ts."
+        }
+      ],
+      "changedFiles": [],
+      "testsAddedOrUpdated": [],
+      "commandsRun": [
+        {
+          "command": "npm test",
+          "result": "not-run",
+          "summary": "Review-only role had no shell execution capability."
+        },
+        {
+          "command": "npm run check:types",
+          "result": "not-run",
+          "summary": "Review-only role had no shell execution capability."
+        }
+      ],
+      "validationOutput": [
+        "Statically verified trusted team-to-repository binding, fixed GitHub API owner/repo/ref arguments, path and search guards, issue-bound Linear tools, additive existing-label validation, delivery idempotency, and trigger transition filtering.",
+        "Identified an unconditional Linear update after a multi-request TOCTOU window.",
+        "Identified raw unredacted repository content exposure and prompt-only enforcement around a write-capable model.",
+        "Identified trigger-removal cancellation and retrigger edge cases."
+      ],
+      "residualRisks": [
+        "GitHub read-only scope ultimately depends on correct fine-grained token configuration; application code cannot prove token permissions.",
+        "Linear issue and private repository content is transmitted to third-party model providers.",
+        "GitHub search parser edge cases are not fuzz-tested even though no confirmed scope escape was found.",
+        "The personal Linear API key has broader workspace privileges than the issue-bound model tools expose."
+      ],
+      "noStagedFiles": true,
+      "diffSummary": "Review-only security assessment of the uncommitted Linear issue-strengthening and GitHub repository-reading implementation; no files were modified by the reviewer.",
+      "reviewFindings": [
+        "high: src/tools/linear-issue.ts:67-139 and src/shared/linear-client.ts:73-75 - snapshot validation is separated from an unconditional update by label and comment operations, allowing concurrent human edits or team moves to be overwritten.",
+        "high: src/tools/repository-read.ts:87-145 - filename-only exclusions permit common credential-bearing files and ordinary files containing secrets; raw content is returned without scanning or redaction.",
+        "high: src/channels/linear.ts:38, src/tools/linear-issue.ts:38-60,121-138, and src/agents/issue-strengthener.ts:87-98 - untrusted content reaches a write-capable model while repository inspection, output shape, secret handling, and label policy are enforced only by prompt.",
+        "medium: src/tools/linear-issue.ts:90-138 and src/shared/linear-trigger.ts:19-27 - removal of the trigger label does not cancel publication, and re-adding it through the model can dispatch another workflow.",
+        "low: src/tools/linear-issue.ts:37-44,75-87,153-170 - read/comment operations are not consistently restricted to the originally bound Linear team."
+      ],
+      "manualNotes": "No files were modified or staged by this reviewer. Repository-wide Git status and executable tests could not be run with the available review tools."
+    }
+  },
+  "effects": {
+    "fileMutation": {
+      "status": "not-applicable",
+      "expected": false,
+      "attempted": false
+    }
+  },
+  "transcriptPath": "/Users/callumkloos/Projects/agents/thunderhead/.pi/subagents/artifacts/bad6d09a_reviewer_0_transcript.jsonl",
+  "timestamp": 1788379748258
+}

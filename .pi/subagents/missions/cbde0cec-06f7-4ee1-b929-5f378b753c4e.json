@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "id": "cbde0cec-06f7-4ee1-b929-5f378b753c4e",
+  "title": "Review Linear issue strengthener implementation",
+  "objective": "Review Linear issue strengthener implementation",
+  "status": "completed",
+  "createdAt": "2026-09-02T20:03:45.587Z",
+  "updatedAt": "2026-09-02T20:26:24.395Z",
+  "runs": [
+    {
+      "runId": "058e0ec8-9c7a-4ce7-940e-807260e004c6",
+      "mode": "workflow",
+      "asyncDir": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/058e0ec8-9c7a-4ce7-940e-807260e004c6",
+      "status": "complete",
+      "startedAt": "2026-09-02T20:03:45.591Z",
+      "completedAt": "2026-09-02T20:09:48.865Z"
+    },
+    {
+      "runId": "aded29a5-8a20-46eb-9e43-dc807196dd52",
+      "mode": "workflow",
+      "asyncDir": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/aded29a5-8a20-46eb-9e43-dc807196dd52",
+      "status": "complete",
+      "startedAt": "2026-09-02T20:18:59.070Z",
+      "completedAt": "2026-09-02T20:22:12.554Z"
+    },
+    {
+      "runId": "f9435ea6-c74d-4c5c-b2f7-1d87ae745618",
+      "mode": "workflow",
+      "asyncDir": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/f9435ea6-c74d-4c5c-b2f7-1d87ae745618",
+      "status": "complete",
+      "startedAt": "2026-09-02T20:24:58.184Z",
+      "completedAt": "2026-09-02T20:26:24.395Z"
+    }
+  ],
+  "workflowChildren": [
+    {
+      "workflowRunId": "058e0ec8-9c7a-4ce7-940e-807260e004c6",
+      "key": "correctness",
+      "status": "completed",
+      "startedAt": "2026-09-02T20:03:45.619Z",
+      "updatedAt": "2026-09-02T20:09:48.791Z",
+      "artifactPaths": [
+        "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/176346f9/run-0/session.jsonl"
+      ],
+      "runId": "176346f9",
+      "agent": "reviewer",
+      "completedAt": "2026-09-02T20:09:48.791Z",
+      "sessionPath": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/176346f9/run-0/session.jsonl",
+      "heartbeat": {
+        "updatedAt": "2026-09-02T20:09:48.791Z",
+        "status": "completed"
+      }
+    },
+    {
+      "workflowRunId": "058e0ec8-9c7a-4ce7-940e-807260e004c6",
+      "key": "security",
+      "status": "completed",
+      "startedAt": "2026-09-02T20:03:45.673Z",
+      "updatedAt": "2026-09-02T20:09:08.263Z",
+      "artifactPaths": [
+        "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/bad6d09a/run-0/session.jsonl"
+      ],
+      "runId": "bad6d09a",
+      "agent": "reviewer",
+      "completedAt": "2026-09-02T20:09:08.263Z",
+      "sessionPath": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/bad6d09a/run-0/session.jsonl",
+      "heartbeat": {
+        "updatedAt": "2026-09-02T20:09:08.263Z",
+        "status": "completed"
+      }
+    },
+    {
+      "workflowRunId": "058e0ec8-9c7a-4ce7-940e-807260e004c6",
+      "key": "tests",
+      "status": "completed",
+      "startedAt": "2026-09-02T20:03:45.690Z",
+      "updatedAt": "2026-09-02T20:07:13.128Z",
+      "artifactPaths": [
+        "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/9990aaaf/run-0/session.jsonl"
+      ],
+      "runId": "9990aaaf",
+      "agent": "reviewer",
+      "completedAt": "2026-09-02T20:07:13.128Z",
+      "sessionPath": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/9990aaaf/run-0/session.jsonl",
+      "heartbeat": {
+        "updatedAt": "2026-09-02T20:07:13.128Z",
+        "status": "completed"
+      }
+    },
+    {
+      "workflowRunId": "aded29a5-8a20-46eb-9e43-dc807196dd52",
+      "key": "followup-correctness",
+      "status": "completed",
+      "startedAt": "2026-09-02T20:18:59.093Z",
+      "updatedAt": "2026-09-02T20:22:12.498Z",
+      "artifactPaths": [
+        "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/4c1c6da3/run-0/session.jsonl"
+      ],
+      "runId": "4c1c6da3",
+      "agent": "reviewer",
+      "completedAt": "2026-09-02T20:22:12.498Z",
+      "sessionPath": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/4c1c6da3/run-0/session.jsonl",
+      "heartbeat": {
+        "updatedAt": "2026-09-02T20:22:12.498Z",
+        "status": "completed"
+      }
+    },
+    {
+      "workflowRunId": "aded29a5-8a20-46eb-9e43-dc807196dd52",
+      "key": "followup-security",
+      "status": "completed",
+      "startedAt": "2026-09-02T20:18:59.170Z",
+      "updatedAt": "2026-09-02T20:21:43.686Z",
+      "artifactPaths": [
+        "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/79904fa8/run-0/session.jsonl"
+      ],
+      "runId": "79904fa8",
+      "agent": "reviewer",
+      "completedAt": "2026-09-02T20:21:43.686Z",
+      "sessionPath": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/79904fa8/run-0/session.jsonl",
+      "heartbeat": {
+        "updatedAt": "2026-09-02T20:21:43.686Z",
+        "status": "completed"
+      }
+    },
+    {
+      "workflowRunId": "f9435ea6-c74d-4c5c-b2f7-1d87ae745618",
+      "key": "security-final",
+      "status": "completed",
+      "startedAt": "2026-09-02T20:24:58.200Z",
+      "updatedAt": "2026-09-02T20:26:24.341Z",
+      "artifactPaths": [
+        "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/eb8a59b5/run-0/session.jsonl"
+      ],
+      "runId": "eb8a59b5",
+      "agent": "reviewer",
+      "completedAt": "2026-09-02T20:26:24.341Z",
+      "sessionPath": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/eb8a59b5/run-0/session.jsonl",
+      "heartbeat": {
+        "updatedAt": "2026-09-02T20:26:24.341Z",
+        "status": "completed"
+      }
+    }
+  ],
+  "decisions": [],
+  "artifacts": [
+    {
+      "kind": "status",
+      "path": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/058e0ec8-9c7a-4ce7-940e-807260e004c6/status.json"
+    },
+    {
+      "kind": "other",
+      "path": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/058e0ec8-9c7a-4ce7-940e-807260e004c6/events.jsonl",
+      "description": "Lifecycle events"
+    },
+    {
+      "kind": "output",
+      "path": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/176346f9/run-0/session.jsonl"
+    },
+    {
+      "kind": "output",
+      "path": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/bad6d09a/run-0/session.jsonl"
+    },
+    {
+      "kind": "output",
+      "path": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/9990aaaf/run-0/session.jsonl"
+    },
+    {
+      "kind": "status",
+      "path": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/aded29a5-8a20-46eb-9e43-dc807196dd52/status.json"
+    },
+    {
+      "kind": "other",
+      "path": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/aded29a5-8a20-46eb-9e43-dc807196dd52/events.jsonl",
+      "description": "Lifecycle events"
+    },
+    {
+      "kind": "output",
+      "path": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/4c1c6da3/run-0/session.jsonl"
+    },
+    {
+      "kind": "output",
+      "path": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/79904fa8/run-0/session.jsonl"
+    },
+    {
+      "kind": "status",
+      "path": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/f9435ea6-c74d-4c5c-b2f7-1d87ae745618/status.json"
+    },
+    {
+      "kind": "other",
+      "path": "/var/folders/jg/54l5wlf1067gdtnv683vv50w0000gn/T/pi-subagents-uid-501/async-subagent-runs/f9435ea6-c74d-4c5c-b2f7-1d87ae745618/events.jsonl",
+      "description": "Lifecycle events"
+    },
+    {
+      "kind": "output",
+      "path": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/eb8a59b5/run-0/session.jsonl"
+    }
+  ],
+  "receipts": [],
+  "cwd": "/Users/callumkloos/Projects/agents/thunderhead",
+  "ownerSessionId": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb.jsonl",
+  "summary": "Workflow completed with 1 child run(s). Return: {\n  \"key\": \"security-final\",\n  \"ok\": true,\n  \"agent\": \"reviewer\",\n  \"runId\": \"eb8a59b5\",\n  \"output\": \"## Review\\n- **Correct:** Raw Linear title/description are absent from the dispatched signal and initial data (`src/channels/linear.ts:31-49`). Model-facing snapshots pass through `issueOutput()` redaction, including conflict responses (`src/tools/linear-issue.ts:52-72,112-125,248-263`).\\n- **Correct:** Conflict checks now use an opaque SHA-256 `snapshotToken`; publishing accepts and compares that token rather than requiring the model to echo original content (`src/shared/linear-client.ts:81-94`; `src/tools/linear-issue.ts:80-84,159-161`). Exact original content is used only server-side for the Linear backup comment (`src/tools/linear-issue.ts:177-185`; `src/shared/linear-client.ts:151-166`).\\n- **Correct:** Standard encrypted PEM private keys are explicitly redacted by the `ENCRYPTED PRIVATE KEY` pattern and covered by regression testing (`src/shared/secret-redaction.ts:1-3`; `src/sha Trace: 2 event(s)."
+}
