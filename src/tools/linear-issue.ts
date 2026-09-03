@@ -1,6 +1,9 @@
 import { defineTool, type JsonValue } from "@flue/runtime";
 import * as v from "valibot";
-import { validateStrengthenedDescription } from "../shared/issue-standard.ts";
+import {
+  MAX_STRENGTHENED_DESCRIPTION_CHARACTERS,
+  validateStrengthenedDescription,
+} from "../shared/issue-standard.ts";
 import {
   conflictMarker,
   ensureMarkedComment,
@@ -80,8 +83,12 @@ export function linearIssueTools(
       "Replace the bound Linear issue's title and structured Markdown description, back up the exact prior content in a comment, and add selected existing team labels. This call is rejected until a mapped repository file has been read successfully and no repository request has failed.",
     input: v.object({
       snapshotToken: v.pipe(v.string(), v.length(64)),
-      title: v.pipe(v.string(), v.minLength(1), v.maxLength(500)),
-      description: v.pipe(v.string(), v.minLength(1), v.maxLength(50_000)),
+      title: v.pipe(v.string(), v.minLength(1), v.maxLength(120)),
+      description: v.pipe(
+        v.string(),
+        v.minLength(1),
+        v.maxLength(MAX_STRENGTHENED_DESCRIPTION_CHARACTERS),
+      ),
       labelIds: v.optional(v.array(v.string()), []),
     }),
     durable: true,

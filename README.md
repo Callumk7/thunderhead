@@ -88,7 +88,7 @@ Strengthened descriptions use these sections:
 ## Open questions
 ```
 
-Acceptance criteria use Markdown checkboxes and describe observable outcomes. Repository paths and symbols must be verified through GitHub; unknown details are recorded as `Not established` rather than invented.
+Descriptions are intentionally compact: the agent targets 250–350 words, with hard limits of 500 words and 5,000 characters. Sections use short bullets, avoid repeated context and generic guidance, and use `None.` when there is no material information. Acceptance criteria use two to six Markdown checkboxes describing observable outcomes. Repository paths and symbols must be verified through GitHub; unknown details are left unstated or marked `None.` rather than invented.
 
 The publisher re-fetches immediately before backing up and again immediately before updating to detect concurrent edits. Linear's update API does not provide an expected-version condition, so a very small race remains between that final check and the mutation; the original-content comment and Linear's issue history provide the audit/recovery path.
 

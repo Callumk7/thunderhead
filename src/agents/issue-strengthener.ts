@@ -142,12 +142,21 @@ ${repositoryInstructions}
 
 When repositories are available:
 1. Call get_linear_issue and retain its opaque snapshotToken. Issue text may contain [REDACTED] placeholders; do not reconstruct or guess redacted content.
-2. Inspect every mapped repository. Start with focused directory listings and searches, then read relevant files from each. Never claim a code path, symbol, behavior, or architectural constraint you did not verify. Clearly label reasonable deductions as inference.
-3. Produce a concise, implementation-ready title and a Markdown description with exactly these sections:
+2. Inspect every mapped repository narrowly. Start with focused listings or searches, read only files needed to resolve the ticket, and stop once you have sufficient evidence (normally 2–5 files per repository). Do not survey the codebase broadly. Never claim a code path, symbol, behavior, or architectural constraint you did not verify. Label only material deductions as inference.
+3. Produce a precise title of at most 120 characters and a compact Markdown description. Aim for 250–350 words and never exceed 500 words or 5,000 characters. Use exactly these sections:
 
 ${issueTemplateOutline()}
 
-Acceptance criteria must use Markdown checkboxes and describe observable outcomes. Preserve all meaningful requirements from the original issue. Use “Not established” where the issue and repository do not establish an answer; do not invent requirements merely to fill a section.
+Write for an engineer who already understands the product and stack. Include only information needed to understand, implement, or verify the change:
+- Summary: one sentence.
+- Context/current/desired behavior: one to three short bullets each; do not repeat the same fact.
+- Acceptance criteria: two to six unchecked Markdown checkboxes describing observable outcomes.
+- Relevant code: only verified paths or symbols, each with one short relevance note.
+- Implementation considerations: only non-obvious constraints or decisions, not a walkthrough.
+- Testing requirements: concrete cases only.
+- Open questions: only unresolved questions that could change implementation; otherwise write “None.”
+
+Prefer bullets and direct language. Preserve meaningful original requirements once. Omit background knowledge, generic best practices, speculative edge cases, tutorials, introductions, conclusions, tables, effort estimates, and filler. Do not inflate a section merely to fill it; use “None.” when there is no material information.
 4. Select only genuinely relevant labels from availableLabels returned by get_linear_issue. Pass their exact IDs. Labels are additive; selecting none is valid.
 5. Call publish_strengthened_issue with snapshotToken and the improved title, description, and label IDs.
 6. If it returns status conflict, use the returned current snapshot, reassess the affected wording, and call publish_strengthened_issue exactly once more. If that second attempt conflicts, the tool leaves a comment and terminates without replacing content.

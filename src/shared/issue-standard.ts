@@ -1,3 +1,6 @@
+export const MAX_STRENGTHENED_DESCRIPTION_CHARACTERS = 5_000;
+export const MAX_STRENGTHENED_DESCRIPTION_WORDS = 500;
+
 export const ISSUE_TEMPLATE_SECTIONS = [
   "Summary",
   "Context and motivation",
@@ -15,6 +18,18 @@ export function issueTemplateOutline(): string {
 }
 
 export function validateStrengthenedDescription(description: string): void {
+  if (description.length > MAX_STRENGTHENED_DESCRIPTION_CHARACTERS) {
+    throw new Error(
+      `The strengthened description must not exceed ${MAX_STRENGTHENED_DESCRIPTION_CHARACTERS} characters.`,
+    );
+  }
+  const wordCount = description.trim().split(/\s+/).filter(Boolean).length;
+  if (wordCount > MAX_STRENGTHENED_DESCRIPTION_WORDS) {
+    throw new Error(
+      `The strengthened description must not exceed ${MAX_STRENGTHENED_DESCRIPTION_WORDS} words.`,
+    );
+  }
+
   const headings = [...description.matchAll(/^## ([^\n]+)$/gm)].map((match) => match[1]);
   if (
     headings.length !== ISSUE_TEMPLATE_SECTIONS.length ||
