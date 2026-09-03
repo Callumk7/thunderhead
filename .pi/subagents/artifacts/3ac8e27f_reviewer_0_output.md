@@ -1,0 +1,7 @@
+## Review
+- **Correct:** All five `step.do` callbacks are JSON-safe. Comment steps return `{ created: boolean }` through `ensureMarkedComment` (`src/shared/linear-client.ts:125-136`; `src/tools/linear-issue.ts:125-135,145-154,182-189,230-239`), while the update step returns `{ updated: true }` (`src/tools/linear-issue.ts:196-204`).
+- **Correct:** Snapshot tokens exclude `updatedAt` but retain issue ID, team, title, description, and sorted label IDs (`src/shared/linear-client.ts:82-94`). Comment-only timestamp changes therefore do not self-conflict, while real title/body/team/label changes do.
+- **Correct:** Backup markers use that stable content token (`src/shared/linear-client.ts:109-115`; `src/tools/linear-issue.ts:182-188`), allowing retries to find the existing comment rather than create timestamp-derived duplicates.
+- **Correct:** Re-fetches before backup and after backup preserve late-edit detection (`src/tools/linear-issue.ts:143-179,191-193`). Regression coverage includes undefined durable-step rejection and backup-comment timestamp mutation (`src/tools/linear-issue.test.ts:62-74,143-156,234-242`; `src/shared/linear-client.test.ts:34-42`).
+- **Blocker:** None. No high regression found.
+- **Note — Low:** Tests directly assert title/label sensitivity but not description/team sensitivity, nor a complete crash-and-retry duplicate-marker scenario. The implementation covers these structurally. A narrow final read-to-update race remains because the Linear mutation has no conditional-version argument.

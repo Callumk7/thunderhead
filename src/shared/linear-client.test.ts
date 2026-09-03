@@ -4,7 +4,7 @@ import {
   formatOriginalContentComment,
   issueSnapshotToken,
   originalContentMarker,
-  snapshotMatches,
+  originalContentMarkerPrefix,
   validateExistingLabelIds,
   type LinearIssueGateway,
   type LinearIssueSnapshot,
@@ -32,19 +32,16 @@ function gateway(commentBodies: string[] = []): LinearIssueGateway {
 }
 
 describe("Linear publication safeguards", () => {
-  it("creates an opaque conflict token that changes with issue content", () => {
-    expect(issueSnapshotToken(snapshot)).toHaveLength(64);
-    expect(issueSnapshotToken({ ...snapshot, title: "Human edit" })).not.toBe(
-      issueSnapshotToken(snapshot),
-    );
-  });
-
-  it("matches only the exact issue snapshot", () => {
-    expect(snapshotMatches(snapshot, snapshot)).toBe(true);
-    expect(snapshotMatches({ ...snapshot, title: "Human edit" }, snapshot)).toBe(false);
+  it("creates a content token unaffected by comment-only timestamp changes", () => {
+    const token = issueSnapshotToken(snapshot);
+    expect(token).toHaveLength(64);
+    expect(issueSnapshotToken({ ...snapshot, title: "Human edit" })).not.toBe(token);
+    expect(issueSnapshotToken({ ...snapshot, description: "Human edit" })).not.toBe(token);
+    expect(issueSnapshotToken({ ...snapshot, teamId: "other-team" })).not.toBe(token);
+    expect(issueSnapshotToken({ ...snapshot, labelIds: ["other"] })).not.toBe(token);
     expect(
-      snapshotMatches({ ...snapshot, updatedAt: "2026-01-02T00:00:00.000Z" }, snapshot),
-    ).toBe(false);
+      issueSnapshotToken({ ...snapshot, updatedAt: "2026-01-02T00:00:00.000Z" }),
+    ).toBe(token);
   });
 
   it("accepts only existing team label IDs and removes duplicates", () => {
@@ -70,6 +67,21 @@ describe("Linear publication safeguards", () => {
 
     const retry = gateway([`${marker}\nBackup`]);
     await ensureMarkedComment(retry, snapshot.id, marker, "Backup");
+    expect(retry.createIssueComment).not.toHaveBeenCalled();
+  });
+
+  it("recognizes a legacy version marker when its backed-up content is identical", async () => {
+    const body = formatOriginalContentComment(snapshot);
+    const legacy = originalContentMarker("delivery-id", snapshot.updatedAt);
+    const retry = gateway([`${legacy}\n${body}`]);
+
+    await ensureMarkedComment(
+      retry,
+      snapshot.id,
+      originalContentMarker("delivery-id", issueSnapshotToken(snapshot)),
+      body,
+      originalContentMarkerPrefix("delivery-id"),
+    );
     expect(retry.createIssueComment).not.toHaveBeenCalled();
   });
 

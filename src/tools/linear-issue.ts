@@ -8,6 +8,7 @@ import {
   issueSnapshotToken,
   linearIssueGateway,
   originalContentMarker,
+  originalContentMarkerPrefix,
   repositoryUnavailableMarker,
   validateExistingLabelIds,
   type LinearIssueGateway,
@@ -183,8 +184,9 @@ export function linearIssueTools(
         ensureMarkedComment(
           gateway,
           ref.issueId,
-          originalContentMarker(ref.deliveryId, current.updatedAt),
+          originalContentMarker(ref.deliveryId, issueSnapshotToken(current)),
           formatOriginalContentComment(current),
+          originalContentMarkerPrefix(ref.deliveryId),
         ),
       );
 
@@ -193,13 +195,14 @@ export function linearIssueTools(
         return conflictOutcome(beforeUpdate);
       }
 
-      await step.do("update-strengthened-issue", () =>
-        gateway.updateIssue(ref.issueId, {
+      await step.do("update-strengthened-issue", async () => {
+        await gateway.updateIssue(ref.issueId, {
           title: data.title,
           description: data.description,
           addedLabelIds,
-        }),
-      );
+        });
+        return { updated: true };
+      });
       options.recordTerminal("published");
 
       return {

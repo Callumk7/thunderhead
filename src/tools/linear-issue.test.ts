@@ -62,7 +62,15 @@ const input = {
 function context(data: typeof input) {
   return {
     data,
-    step: { do: async (_name: string, operation: () => unknown) => operation() },
+    step: {
+      do: async (_name: string, operation: () => unknown) => {
+        const value = await operation();
+        if (value === undefined) {
+          throw new Error("Durable step returned undefined");
+        }
+        return value;
+      },
+    },
   } as never;
 }
 
@@ -129,6 +137,56 @@ describe("Linear issue tools", () => {
       addedLabelIds: ["bug"],
     });
     expect(bound.terminal).toEqual(["published"]);
+    expect(result).toMatchObject({ output: { status: "published" }, terminate: true });
+  });
+
+  it("reuses the backup marker after a crash instead of duplicating the comment", async () => {
+    let current = original;
+    const comments: string[] = [];
+    const api = gateway();
+    vi.mocked(api.getIssue).mockImplementation(async () => current);
+    vi.mocked(api.getIssueCommentBodies).mockImplementation(async () => comments);
+    vi.mocked(api.createIssueComment).mockImplementation(async (_issueId, body) => {
+      comments.push(body);
+      current = { ...current, updatedAt: "after-backup-comment" };
+    });
+    const bound = tools(api);
+    let crashOnce = true;
+
+    await expect(
+      bound.publish.run({
+        data: input,
+        step: {
+          do: async (name: string, operation: () => unknown) => {
+            const value = await operation();
+            if (name === "backup-original-content" && crashOnce) {
+              crashOnce = false;
+              throw new Error("simulated crash after comment creation");
+            }
+            return value;
+          },
+        },
+      } as never),
+    ).rejects.toThrow(/simulated crash/);
+
+    const result = await bound.publish.run(context(input));
+    expect(api.createIssueComment).toHaveBeenCalledOnce();
+    expect(api.updateIssue).toHaveBeenCalledOnce();
+    expect(result).toMatchObject({ output: { status: "published" }, terminate: true });
+  });
+
+  it("does not treat the backup comment's updatedAt change as a conflict", async () => {
+    let current = original;
+    const api = gateway();
+    vi.mocked(api.getIssue).mockImplementation(async () => current);
+    vi.mocked(api.createIssueComment).mockImplementation(async () => {
+      current = { ...current, updatedAt: "after-backup-comment" };
+    });
+    const bound = tools(api);
+
+    const result = await bound.publish.run(context(input));
+    expect(api.createIssueComment).toHaveBeenCalledOnce();
+    expect(api.updateIssue).toHaveBeenCalledOnce();
     expect(result).toMatchObject({ output: { status: "published" }, terminate: true });
   });
 
@@ -209,7 +267,13 @@ describe("Linear issue tools", () => {
     });
 
     const result = await bound.reportRepositoryUnavailable.run({
-      step: { do: async (_name: string, operation: () => unknown) => operation() },
+      step: {
+        do: async (_name: string, operation: () => unknown) => {
+          const value = await operation();
+          if (value === undefined) throw new Error("Durable step returned undefined");
+          return value;
+        },
+      },
     } as never);
     expect(api.createIssueComment).toHaveBeenCalledWith(
       original.id,

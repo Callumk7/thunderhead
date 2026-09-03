@@ -1,0 +1,230 @@
+{
+  "runId": "3ac8e27f",
+  "agent": "reviewer",
+  "task": "[prompt redacted]",
+  "exitCode": 1,
+  "processSignal": "SIGTERM",
+  "usage": {
+    "input": 43925,
+    "output": 5452,
+    "cacheRead": 194560,
+    "cacheWrite": 0,
+    "cost": 0.48046500000000003,
+    "turns": 10
+  },
+  "model": "openai-codex/gpt-5.6-sol:high",
+  "attemptedModels": [
+    "openai-codex/gpt-5.6-sol:high"
+  ],
+  "modelAttempts": [
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": false,
+      "exitCode": 1,
+      "error": "[startup-retry] openai-codex/gpt-5.6-sol:high exited before model or tool activity (attempt 1/4). Retrying the same model in 250ms.",
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "cost": 0,
+        "turns": 0
+      }
+    },
+    {
+      "model": "openai-codex/gpt-5.6-sol:high",
+      "success": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 43925,
+        "output": 5452,
+        "cacheRead": 194560,
+        "cacheWrite": 0,
+        "cost": 0.48046500000000003,
+        "turns": 10
+      }
+    }
+  ],
+  "durationMs": 137208,
+  "toolCount": 32,
+  "error": "Acceptance rejected: no-staged-files evidence missing from child report.",
+  "launchContractDigest": "580c347165c8fe875a747b52d19b26ab9abbcd3144dc3de40651cb47baea52a8",
+  "launchResolvedExtensions": {
+    "version": 1,
+    "source": "launch-resolved",
+    "disableAmbientExtensions": false,
+    "runtime": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "configured": [],
+    "effective": [
+      "sha256:88d3b4dc56e05854"
+    ],
+    "omitted": {
+      "runtime": 0,
+      "configured": 0,
+      "effective": 0
+    }
+  },
+  "acceptance": {
+    "status": "rejected",
+    "evidenceStatus": "rejected",
+    "explicit": true,
+    "effectiveAcceptance": {
+      "level": "checked",
+      "explicit": true,
+      "inferredReason": [
+        "read-only/reviewer-style agent"
+      ],
+      "criteria": [
+        {
+          "id": "criterion-1",
+          "must": "Return concrete findings with file paths and severity when applicable",
+          "evidence": [
+            "changed-files",
+            "tests-added",
+            "commands-run",
+            "residual-risks",
+            "no-staged-files",
+            "review-findings"
+          ],
+          "severity": "required"
+        }
+      ],
+      "evidence": [
+        "changed-files",
+        "tests-added",
+        "commands-run",
+        "residual-risks",
+        "no-staged-files",
+        "review-findings"
+      ],
+      "verify": [],
+      "stopRules": []
+    },
+    "inferredReason": [
+      "read-only/reviewer-style agent"
+    ],
+    "criteria": [
+      {
+        "id": "criterion-1",
+        "must": "Return concrete findings with file paths and severity when applicable",
+        "evidence": [
+          "changed-files",
+          "tests-added",
+          "commands-run",
+          "residual-risks",
+          "no-staged-files",
+          "review-findings"
+        ],
+        "severity": "required"
+      }
+    ],
+    "runtimeChecks": [
+      {
+        "id": "criterion:criterion-1",
+        "status": "passed",
+        "message": "Required criterion 'criterion-1' satisfied."
+      },
+      {
+        "id": "evidence:changed-files",
+        "status": "passed",
+        "message": "changed-files evidence present."
+      },
+      {
+        "id": "evidence:tests-added",
+        "status": "passed",
+        "message": "tests-added evidence present."
+      },
+      {
+        "id": "evidence:commands-run",
+        "status": "passed",
+        "message": "commands-run evidence present."
+      },
+      {
+        "id": "evidence:residual-risks",
+        "status": "passed",
+        "message": "residual-risks evidence present."
+      },
+      {
+        "id": "evidence:no-staged-files",
+        "status": "failed",
+        "message": "no-staged-files evidence missing from child report."
+      },
+      {
+        "id": "evidence:review-findings",
+        "status": "passed",
+        "message": "review-findings evidence present."
+      },
+      {
+        "id": "no-staged-files",
+        "status": "passed",
+        "message": "No staged files detected."
+      }
+    ],
+    "verifyRuns": [],
+    "childReport": {
+      "criteriaSatisfied": [
+        {
+          "id": "criterion-1",
+          "status": "satisfied",
+          "evidence": "Reviewed src/shared/linear-client.ts:82-136 and src/tools/linear-issue.ts:125-239; found no blocker/high regression and documented the remaining low-risk test gaps."
+        }
+      ],
+      "changedFiles": [
+        "src/shared/linear-client.ts",
+        "src/shared/linear-client.test.ts",
+        "src/tools/linear-issue.ts",
+        "src/tools/linear-issue.test.ts"
+      ],
+      "testsAddedOrUpdated": [
+        "src/shared/linear-client.test.ts",
+        "src/tools/linear-issue.test.ts"
+      ],
+      "commandsRun": [
+        {
+          "command": "grep for step.do callbacks under src",
+          "result": "passed",
+          "summary": "Found five callbacks, all returning JSON-safe objects."
+        },
+        {
+          "command": "npm test / npm run check:types",
+          "result": "not-run",
+          "summary": "Review role had no shell execution capability."
+        },
+        {
+          "command": "git diff --cached --quiet",
+          "result": "not-run",
+          "summary": "Staging state could not be verified without Git command access."
+        }
+      ],
+      "validationOutput": [
+        "Snapshot hash excludes updatedAt while including teamId, title, description, and sorted labelIds.",
+        "Comment steps return {created:boolean}; update step returns {updated:true}.",
+        "Tests model rejection of undefined durable-step results and a comment-induced updatedAt change."
+      ],
+      "residualRisks": [
+        "Low: description/team token sensitivity and full crash-retry comment deduplication are not explicitly tested.",
+        "A narrow final getIssue-to-updateIssue race remains without a conditional Linear mutation.",
+        "Test/typecheck and staging status require supervisor verification."
+      ],
+      "noStagedFiles": false,
+      "diffSummary": "Makes durable callbacks serializable and bases conflicts/version markers on meaningful issue content rather than updatedAt.",
+      "reviewFindings": [
+        "no blockers or high regressions",
+        "low: src/shared/linear-client.test.ts:34-42 does not directly assert description/team token sensitivity",
+        "note: src/tools/linear-issue.ts:191-204 retains an unavoidable narrow final read-to-write race"
+      ],
+      "manualNotes": "noStagedFiles is false solely because staging status was not verifiable with the available read-only tools; it does not assert that staged changes exist."
+    }
+  },
+  "effects": {
+    "fileMutation": {
+      "status": "not-applicable",
+      "expected": false,
+      "attempted": false
+    }
+  },
+  "transcriptPath": "/Users/callumkloos/Projects/agents/thunderhead/.pi/subagents/artifacts/3ac8e27f_reviewer_0_transcript.jsonl",
+  "timestamp": 1788442250809
+}

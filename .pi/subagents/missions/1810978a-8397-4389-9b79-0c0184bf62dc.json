@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "id": "1810978a-8397-4389-9b79-0c0184bf62dc",
+  "title": "[prompt redacted]",
+  "objective": "[prompt redacted]",
+  "status": "failed",
+  "createdAt": "2026-09-03T13:28:33.265Z",
+  "updatedAt": "2026-09-03T13:30:50.819Z",
+  "runs": [
+    {
+      "runId": "call_mqlwmiA82DJythbJM8b6lMNx|fc_0c855778184b0a92016a9975fbc78887d2bcd8062fcc4f2859",
+      "mode": "workflow",
+      "agent": "reviewer",
+      "status": "failed",
+      "startedAt": "2026-09-03T13:30:50.818Z",
+      "completedAt": "2026-09-03T13:30:50.818Z",
+      "usage": {
+        "tokens": 49377
+      }
+    }
+  ],
+  "workflowChildren": [
+    {
+      "workflowRunId": "call_mqlwmiA82DJythbJM8b6lMNx|fc_0c855778184b0a92016a9975fbc78887d2bcd8062fcc4f2859",
+      "key": "review",
+      "status": "failed",
+      "startedAt": "2026-09-03T13:28:33.286Z",
+      "updatedAt": "2026-09-03T13:30:50.814Z",
+      "artifactPaths": [
+        "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/3ac8e27f/run-0/session.jsonl"
+      ],
+      "runId": "3ac8e27f",
+      "agent": "reviewer",
+      "completedAt": "2026-09-03T13:30:50.814Z",
+      "sessionPath": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb/3ac8e27f/run-0/session.jsonl",
+      "heartbeat": {
+        "updatedAt": "2026-09-03T13:30:50.814Z",
+        "status": "failed"
+      }
+    }
+  ],
+  "decisions": [],
+  "artifacts": [
+    {
+      "kind": "output",
+      "path": "/Users/callumkloos/Projects/agents/thunderhead/.pi/subagents/artifacts/3ac8e27f_reviewer_0_output.md"
+    },
+    {
+      "kind": "other",
+      "path": "/Users/callumkloos/Projects/agents/thunderhead/.pi/subagents/artifacts/3ac8e27f_reviewer_0_transcript.jsonl",
+      "description": "Child transcript"
+    }
+  ],
+  "receipts": [],
+  "cwd": "/Users/callumkloos/Projects/agents/thunderhead",
+  "ownerSessionId": "/Users/callumkloos/.pi/agent/sessions/--Users-callumkloos-Projects-agents-thunderhead--/2026-09-02T19-33-33-653Z_01a0639c-c555-7195-bbee-0e77b3a5c7eb.jsonl",
+  "summary": "Run fan-out: 1/64 used, 63 remaining\nWorkflow failed: Error: Run 'review' failed: Run fan-out: 1/64 used, 63 remaining\nAcceptance rejected: no-staged-files evidence missing from child report.\n\nOutput:\n## Review\n- **Correct:** All five `step.do` callbacks are JSON-safe. Comment steps return `{ created: boolean }` through `ensureMarkedComment` (`src/shared/linear-client.ts:125-136`; `src/tools/linear-issue.ts:125-135,145-154,182-189,230-239`), while the update step returns `{ updated: true }` (`src/tools/linear-issue.ts:196-204`).\n- **Correct:** Snapshot tokens exclude `updatedAt` but retain issue ID, team, title, description, and sorted label IDs (`src/shared/linear-client.ts:82-94`). Comment-only timestamp changes therefore do not self-conflict, while real title/body/team/label changes do.\n- **Correct:** Backup markers use that stable content token (`src/shared/linear-client.ts:109-115`; `src/tools/linear-issue.ts:182-188`), allowing retries to find the existing comment rather than create timestamp-derived duplicates.\n- **Correct:** Re-fetches before backup and after backup preserve late-edit detection (`src/tools/linear-issue.ts:143-179,191-193`). Regression coverage includes undefined durable-step rejection and backup-comment timestamp mutation (`src/tools/linear-issue.test.ts:62-74,143-156,234-242`; `src/shared/linear-client.test.ts:34-42`).\n- **Blocker:** None. No high regression found.\n- **Note — Low:** Tests directly assert title/label sensitivity but not description/team sensitivity, nor a complete crash-and-retry duplicate-marker scenario. The implementation covers these structurally. A narrow final read-to-update race remains because the Linear mutation has no conditional-version argument.\n\nOutput artifact: /Users/callumkloos/Projects/agents/thunderhead/.pi/subagents/artifacts/3ac8e27f_reviewer_0_output.md\n    at MessagePort.<anonymous> ([worker eval]:288:23)\n    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:843:20)\n    at MessagePort....",
+  "acceptance": {
+    "status": "rejected",
+    "evidenceStatus": "rejected",
+    "explicit": true,
+    "effectiveAcceptance": {
+      "level": "checked",
+      "explicit": true,
+      "inferredReason": [
+        "read-only/reviewer-style agent"
+      ],
+      "criteria": [
+        {
+          "id": "criterion-1",
+          "must": "Return concrete findings with file paths and severity when applicable",
+          "evidence": [
+            "changed-files",
+            "tests-added",
+            "commands-run",
+            "residual-risks",
+            "no-staged-files",
+            "review-findings"
+          ],
+          "severity": "required"
+        }
+      ],
+      "evidence": [
+        "changed-files",
+        "tests-added",
+        "commands-run",
+        "residual-risks",
+        "no-staged-files",
+        "review-findings"
+      ],
+      "verify": [],
+      "stopRules": []
+    },
+    "inferredReason": [
+      "read-only/reviewer-style agent"
+    ],
+    "criteria": [
+      {
+        "id": "criterion-1",
+        "must": "Return concrete findings with file paths and severity when applicable",
+        "evidence": [
+          "changed-files",
+          "tests-added",
+          "commands-run",
+          "residual-risks",
+          "no-staged-files",
+          "review-findings"
+        ],
+        "severity": "required"
+      }
+    ],
+    "runtimeChecks": [
+      {
+        "id": "criterion:criterion-1",
+        "status": "passed",
+        "message": "Required criterion 'criterion-1' satisfied."
+      },
+      {
+        "id": "evidence:changed-files",
+        "status": "passed",
+        "message": "changed-files evidence present."
+      },
+      {
+        "id": "evidence:tests-added",
+        "status": "passed",
+        "message": "tests-added evidence present."
+      },
+      {
+        "id": "evidence:commands-run",
+        "status": "passed",
+        "message": "commands-run evidence present."
+      },
+      {
+        "id": "evidence:residual-risks",
+        "status": "passed",
+        "message": "residual-risks evidence present."
+      },
+      {
+        "id": "evidence:no-staged-files",
+        "status": "failed",
+        "message": "no-staged-files evidence missing from child report."
+      },
+      {
+        "id": "evidence:review-findings",
+        "status": "passed",
+        "message": "review-findings evidence present."
+      },
+      {
+        "id": "no-staged-files",
+        "status": "passed",
+        "message": "No staged files detected."
+      }
+    ],
+    "verifyRuns": [],
+    "childReport": {
+      "criteriaSatisfied": [
+        {
+          "id": "criterion-1",
+          "status": "satisfied",
+          "evidence": "Reviewed src/shared/linear-client.ts:82-136 and src/tools/linear-issue.ts:125-239; found no blocker/high regression and documented the remaining low-risk test gaps."
+        }
+      ],
+      "changedFiles": [
+        "src/shared/linear-client.ts",
+        "src/shared/linear-client.test.ts",
+        "src/tools/linear-issue.ts",
+        "src/tools/linear-issue.test.ts"
+      ],
+      "testsAddedOrUpdated": [
+        "src/shared/linear-client.test.ts",
+        "src/tools/linear-issue.test.ts"
+      ],
+      "commandsRun": [
+        {
+          "command": "grep for step.do callbacks under src",
+          "result": "passed",
+          "summary": "Found five callbacks, all returning JSON-safe objects."
+        },
+        {
+          "command": "npm test / npm run check:types",
+          "result": "not-run",
+          "summary": "Review role had no shell execution capability."
+        },
+        {
+          "command": "git diff --cached --quiet",
+          "result": "not-run",
+          "summary": "Staging state could not be verified without Git command access."
+        }
+      ],
+      "validationOutput": [
+        "Snapshot hash excludes updatedAt while including teamId, title, description, and sorted labelIds.",
+        "Comment steps return {created:boolean}; update step returns {updated:true}.",
+        "Tests model rejection of undefined durable-step results and a comment-induced updatedAt change."
+      ],
+      "residualRisks": [
+        "Low: description/team token sensitivity and full crash-retry comment deduplication are not explicitly tested.",
+        "A narrow final getIssue-to-updateIssue race remains without a conditional Linear mutation.",
+        "Test/typecheck and staging status require supervisor verification."
+      ],
+      "noStagedFiles": false,
+      "diffSummary": "Makes durable callbacks serializable and bases conflicts/version markers on meaningful issue content rather than updatedAt.",
+      "reviewFindings": [
+        "no blockers or high regressions",
+        "low: src/shared/linear-client.test.ts:34-42 does not directly assert description/team token sensitivity",
+        "note: src/tools/linear-issue.ts:191-204 retains an unavoidable narrow final read-to-write race"
+      ],
+      "manualNotes": "noStagedFiles is false solely because staging status was not verifiable with the available read-only tools; it does not assert that staged changes exist."
+    }
+  }
+}

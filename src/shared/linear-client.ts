@@ -87,25 +87,10 @@ export function issueSnapshotToken(issue: LinearIssueSnapshot): string {
         teamId: issue.teamId,
         title: issue.title,
         description: issue.description,
-        updatedAt: issue.updatedAt,
+        labelIds: [...issue.labelIds].sort(),
       }),
     )
     .digest("hex");
-}
-
-export function snapshotMatches(
-  current: LinearIssueSnapshot,
-  expected: Pick<
-    LinearIssueSnapshot,
-    "teamId" | "title" | "description" | "updatedAt"
-  >,
-): boolean {
-  return (
-    current.teamId === expected.teamId &&
-    current.title === expected.title &&
-    current.description === expected.description &&
-    current.updatedAt === expected.updatedAt
-  );
 }
 
 export function validateExistingLabelIds(
@@ -121,12 +106,16 @@ export function validateExistingLabelIds(
   return unique;
 }
 
+export function originalContentMarkerPrefix(deliveryId: string): string {
+  return `<!-- thunderhead:original:${deliveryId}`;
+}
+
 export function originalContentMarker(
   deliveryId: string,
   issueVersion?: string,
 ): string {
   const version = issueVersion ? `:${encodeURIComponent(issueVersion)}` : "";
-  return `<!-- thunderhead:original:${deliveryId}${version} -->`;
+  return `${originalContentMarkerPrefix(deliveryId)}${version} -->`;
 }
 
 export function repositoryUnavailableMarker(deliveryId: string): string {
@@ -142,10 +131,22 @@ export async function ensureMarkedComment(
   issueId: string,
   marker: string,
   body: string,
-): Promise<void> {
+  equivalentMarkerPrefix?: string,
+): Promise<{ created: boolean }> {
   const comments = await gateway.getIssueCommentBodies(issueId);
-  if (comments.some((comment) => comment.includes(marker))) return;
+  if (
+    comments.some(
+      (comment) =>
+        comment.includes(marker) ||
+        (equivalentMarkerPrefix !== undefined &&
+          comment.includes(equivalentMarkerPrefix) &&
+          comment.endsWith(body)),
+    )
+  ) {
+    return { created: false };
+  }
   await gateway.createIssueComment(issueId, `${marker}\n${body}`);
+  return { created: true };
 }
 
 export function formatOriginalContentComment(
